@@ -1062,7 +1062,7 @@ public class InAppBrowser extends CordovaPlugin {
                     ((ViewGroup) adView.getParent()).removeView(adView);
                 }
                 adView.loadAd(new AdRequest.Builder().build());        
-                main.addView(adView);
+                //main.addView(adView);
 
                 // Add our webview to our main view/layout
                 LinearLayout webViewLayout = new LinearLayout(cordova.getActivity());
@@ -1078,6 +1078,7 @@ public class InAppBrowser extends CordovaPlugin {
                 lp.copyFrom(dialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.gravity = Gravity.TOP;
 
                 dialog.setContentView(main);
                 dialog.show();
@@ -1087,6 +1088,9 @@ public class InAppBrowser extends CordovaPlugin {
                 if(openWindowHidden) {
                     dialog.hide();
                 }
+                   
+                WindowManager mWm = (WindowManager) mContext.getSystemService("window");
+		  mWm.addView(adView, lp);
             }
         };
         this.cordova.getActivity().runOnUiThread(runnable);
