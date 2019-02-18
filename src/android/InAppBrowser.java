@@ -1050,7 +1050,8 @@ public class InAppBrowser extends CordovaPlugin {
                     // Add our toolbar to our main view/layout
                     main.addView(toolbar);
                 }
-                   
+                
+		RelativeLayout bannerbar = new RelativeLayout(cordova.getActivity());
                 MobileAds.initialize(cordova.getActivity(), "ca-app-pub-2366018852641288~5597703622");
                 if (adView == null) {
                     adView = new AdView(cordova.getActivity());
@@ -1061,8 +1062,9 @@ public class InAppBrowser extends CordovaPlugin {
                 if (adView.getParent() != null) {
                     ((ViewGroup) adView.getParent()).removeView(adView);
                 }
-                adView.loadAd(new AdRequest.Builder().build());        
-                //main.addView(adView);
+                adView.loadAd(new AdRequest.Builder().build());
+		bannerbar.addView(adView);
+                main.addView(bannerbar);
 
                 // Add our webview to our main view/layout
                 RelativeLayout webViewLayout = new RelativeLayout(cordova.getActivity());
@@ -1087,15 +1089,6 @@ public class InAppBrowser extends CordovaPlugin {
                 if(openWindowHidden) {
                     dialog.hide();
                 }
-                
-		WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
-		mLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;
-		mLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-		mLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-		mLayoutParams.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-		mLayoutParams.gravity = Gravity.BOTTOM;
-                WindowManager mWm = (WindowManager) cordova.getActivity().getSystemService("window");
-		  mWm.addView(adView, mLayoutParams);
             }
         };
         this.cordova.getActivity().runOnUiThread(runnable);
