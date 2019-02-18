@@ -85,7 +85,10 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class InAppBrowser extends CordovaPlugin {
@@ -257,6 +260,9 @@ public class InAppBrowser extends CordovaPlugin {
         else if (action.equals("close")) {
             closeDialog();
             if (adView != null) {
+                if (adView.getParent() != null) {
+                   ((ViewGroup) adView.getParent()).removeView(adView);
+                }
                 adView.destroy();
                 adView = null;
             }
@@ -1054,12 +1060,17 @@ public class InAppBrowser extends CordovaPlugin {
                     webViewLayout.addView(footer);
                 }
                    
+                MobileAds.initialize(cordova.getActivity(), "ca-app-pub-2366018852641288~5597703622");
                 if (adView == null) {
                     adView = new AdView(cordova.getActivity());
-                    adView.setAdUnitId(plugin.config.getBannerAdUnitId());
+                    adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");//测试id
+                    //adView.setAdUnitId("ca-app-pub-2366018852641288/7100211691");
                     adView.setAdSize(AdSize.BANNER);
                 }
-                adView.loadAd(new AdRequest.Builder().build());
+                if (adView.getParent() != null) {
+                    ((ViewGroup) adView.getParent()).removeView(adView);
+                }
+                adView.loadAd(new AdRequest.Builder().build());        
                 main.addView(adView);
 
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
