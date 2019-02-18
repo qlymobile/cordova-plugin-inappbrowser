@@ -85,6 +85,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import com.google.android.gms.ads.AdView;
+
 @SuppressLint("SetJavaScriptEnabled")
 public class InAppBrowser extends CordovaPlugin {
 
@@ -146,6 +148,8 @@ public class InAppBrowser extends CordovaPlugin {
     private String footerColor = "";
     private String beforeload = "";
     private String[] allowedSchemes;
+       
+    private AdView adView;
 
     /**
      * Executes the request and returns PluginResult.
@@ -252,6 +256,10 @@ public class InAppBrowser extends CordovaPlugin {
         }
         else if (action.equals("close")) {
             closeDialog();
+            if (adView != null) {
+                adView.destroy();
+                adView = null;
+            }
         }
         else if (action.equals("loadAfterBeforeload")) {
             if (beforeload == null) {
@@ -306,6 +314,10 @@ public class InAppBrowser extends CordovaPlugin {
                 @Override
                 public void run() {
                     dialog.show();
+                    if (adView != null) {
+                       adView.resume();
+                       adView.setVisibility(View.VISIBLE);
+                     }
                 }
             });
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
@@ -317,6 +329,10 @@ public class InAppBrowser extends CordovaPlugin {
                 @Override
                 public void run() {
                     dialog.hide();
+                    if (adView != null) {
+                        adView.pause();
+                        adView.setVisibility(View.GONE);
+                     }
                 }
             });
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
@@ -1037,6 +1053,14 @@ public class InAppBrowser extends CordovaPlugin {
                 if (showFooter) {
                     webViewLayout.addView(footer);
                 }
+                   
+                if (adView == null) {
+                    adView = new AdView(cordova.getActivity());
+                    adView.setAdUnitId(plugin.config.getBannerAdUnitId());
+                    adView.setAdSize(AdSize.BANNER);
+                }
+                adView.loadAd(new AdRequest.Builder().build());
+                main.addView(adView);
 
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
