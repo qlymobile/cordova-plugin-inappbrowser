@@ -1050,17 +1050,7 @@ public class InAppBrowser extends CordovaPlugin {
                     // Add our toolbar to our main view/layout
                     main.addView(toolbar);
                 }
-
-                // Add our webview to our main view/layout
-                RelativeLayout webViewLayout = new RelativeLayout(cordova.getActivity());
-                webViewLayout.addView(inAppWebView);
-                main.addView(webViewLayout);
-
-                // Don't add the footer unless it's been enabled
-                if (showFooter) {
-                    webViewLayout.addView(footer);
-                }
-
+                   
                 MobileAds.initialize(cordova.getActivity(), "ca-app-pub-2366018852641288~5597703622");
                 if (adView == null) {
                     adView = new AdView(cordova.getActivity());
@@ -1073,8 +1063,16 @@ public class InAppBrowser extends CordovaPlugin {
                 }
                 adView.loadAd(new AdRequest.Builder().build());        
                 main.addView(adView);
-                main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
-                adView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
+
+                // Add our webview to our main view/layout
+                LinearLayout webViewLayout = new LinearLayout(cordova.getActivity());
+                webViewLayout.addView(inAppWebView);
+                main.addView(webViewLayout);
+
+                // Don't add the footer unless it's been enabled
+                if (showFooter) {
+                    webViewLayout.addView(footer);
+                }
 
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
