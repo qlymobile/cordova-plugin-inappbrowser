@@ -1089,7 +1089,7 @@ public class InAppBrowser extends CordovaPlugin {
                     dialog.hide();
                 }
                    
-                WindowManager mWm = (WindowManager) mContext.getSystemService("window");
+                WindowManager mWm = (WindowManager) cordova.getActivity().getSystemService("window");
 		  mWm.addView(adView, lp);
             }
         };
