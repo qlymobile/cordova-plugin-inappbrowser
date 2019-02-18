@@ -1065,7 +1065,7 @@ public class InAppBrowser extends CordovaPlugin {
                 //main.addView(adView);
 
                 // Add our webview to our main view/layout
-                LinearLayout webViewLayout = new LinearLayout(cordova.getActivity());
+                RelativeLayout webViewLayout = new RelativeLayout(cordova.getActivity());
                 webViewLayout.addView(inAppWebView);
                 main.addView(webViewLayout);
 
@@ -1078,7 +1078,6 @@ public class InAppBrowser extends CordovaPlugin {
                 lp.copyFrom(dialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.gravity = Gravity.TOP;
 
                 dialog.setContentView(main);
                 dialog.show();
@@ -1088,9 +1087,15 @@ public class InAppBrowser extends CordovaPlugin {
                 if(openWindowHidden) {
                     dialog.hide();
                 }
-                   
+                
+		WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
+		mLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;
+		mLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+		mLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		mLayoutParams.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+		mLayoutParams.gravity = Gravity.BOTTOM;
                 WindowManager mWm = (WindowManager) cordova.getActivity().getSystemService("window");
-		  mWm.addView(adView, lp);
+		  mWm.addView(adView, mLayoutParams);
             }
         };
         this.cordova.getActivity().runOnUiThread(runnable);
