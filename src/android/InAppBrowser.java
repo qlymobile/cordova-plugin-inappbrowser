@@ -1061,14 +1061,14 @@ public class InAppBrowser extends CordovaPlugin {
                     webViewLayout.addView(footer);
                 }
                 
-                main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
-                webViewLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
+                main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
+                webViewLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
                 MobileAds.initialize(cordova.getActivity(), "ca-app-pub-2366018852641288~5597703622");
                 if (adView == null) {
                     adView = new AdView(cordova.getActivity());
                     adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");//测试id
                     //adView.setAdUnitId("ca-app-pub-2366018852641288/7100211691");
-                    adView.setAdSize(AdSize.BANNER);
+                    adView.setAdSize(AdSize.SMART_BANNER);
                 }
                 if (adView.getParent() != null) {
                     ((ViewGroup) adView.getParent()).removeView(adView);
