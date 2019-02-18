@@ -1060,7 +1060,9 @@ public class InAppBrowser extends CordovaPlugin {
                 if (showFooter) {
                     webViewLayout.addView(footer);
                 }
-                   
+                
+                main.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+                webViewLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
                 MobileAds.initialize(cordova.getActivity(), "ca-app-pub-2366018852641288~5597703622");
                 if (adView == null) {
                     adView = new AdView(cordova.getActivity());
